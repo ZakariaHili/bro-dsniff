@@ -42,7 +42,7 @@ event bro_init() &priority=5
 	# Analyzer::register_for_ports(Analyzer::ANALYZER_NNTP, ports);
 	}
 
-event nntp_Auth(c: connection,command: string, arg: string)
+event nntp_event(c: connection,command: string, arg: string)
 	{
 	local info: Info;
 	info$ts  = network_time();
