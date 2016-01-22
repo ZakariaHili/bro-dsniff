@@ -12,4 +12,4 @@
 ## c: The connection
 ## command: can take one of two value (user or pass)
 ## arg: the data
-event nntp_Auth%(c: connection,command: string, arg: string%);
+event nntp_event%(c: connection,command: string, arg: string%);
