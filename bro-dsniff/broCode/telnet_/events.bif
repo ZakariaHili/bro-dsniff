@@ -10,5 +10,5 @@
 ## See `Google <http://lmgtfy.com/?q=telnet_>`__ for more information about telnet_
 ##
 ## c: The connection
-##
-event telnet__event%(c: connection,data: string%);
+## 
+event telnet__auth%(c: connection,data: string%);

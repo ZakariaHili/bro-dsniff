@@ -41,8 +41,16 @@ event bro_init() &priority=5
 	# TODO: If you're using port-based DPD, uncomment this.
 	# Analyzer::register_for_ports(Analyzer::ANALYZER_TELNET_, ports);
 	}
+global loginOrPassword=0;
+global i=0;
+global j=0;
+global duplicate=0;
+global login: string_array;
+global password: string_array;
+global logindata: string;
+global passdata: string;
 
-event telnet__event(c: connection,data: string)
+event telnet__auth(c: connection,data: string)
 	{
 	local info: Info;
 	info$ts  = network_time();
@@ -50,4 +58,62 @@ event telnet__event(c: connection,data: string)
 	info$id  = c$id;
 
 	Log::write(Telnet_::LOG, info);
+
+
+	
+
+if(data=="\x0a\x0dlogin: ") {
+	loginOrPassword=1;
+	
+	duplicate=0;
+	
+}
+else
+ 	if(data=="\x0a\x0dpassword: ") {
+		loginOrPassword=2;
+		i=0;
+		
+	}
+	else 
+		if(data=="\x0d\x0a"){
+		
+		if(loginOrPassword==2){
+			i=1;
+			logindata="";
+			while(i<|login|){
+				
+				logindata=cat(logindata,login[i]);
+				i=i+1;
+			}
+			i=0;
+			passdata="";
+			while(i<|password|){
+				
+				passdata=cat(passdata,password[i]);
+				i=i+1;
+			}
+			#print fmt("%d",|login|);
+			#logindata=cat(logindata,);
+		 print fmt("source address: %s,Destination address: %s, login: %s, password: %s",c$id$orig_h ,c$id$resp_h,logindata,passdata);
+		 loginOrPassword=0;
+		}
+		}
+		else
+		if(loginOrPassword==1 ){
+
+			if(duplicate==1)
+				duplicate=0;
+			else{
+				login[i]=data;
+				i=i+1;
+				duplicate=1;
+		
+	}
+	}else 
+		if(loginOrPassword==2){
+		password[i]=data;
+		
+	#print fmt("%d %s",i,data);
+		i=i+1;
+	}
 	}

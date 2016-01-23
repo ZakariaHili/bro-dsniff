@@ -10,5 +10,8 @@
 ## See `Google <http://lmgtfy.com/?q=tacacs>`__ for more information about tacacs
 ##
 ## c: The connection
-##
-event tacacs_event%(c: connection,username:string,password:string%);
+## username: the user login
+## password: The password
+
+
+event tacacs_auth%(c: connection,username:string,password:string%);

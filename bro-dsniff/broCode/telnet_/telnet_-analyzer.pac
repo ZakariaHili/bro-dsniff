@@ -3,7 +3,7 @@
 refine flow TELNET__Flow += {
 	function proc_telnet__message(msg: TELNET__PDU): bool
 		%{
-		BifEvent::generate_telnet__event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(),
+		BifEvent::generate_telnet__auth(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(),
 new StringVal(${msg.data}.length(), (const char*) ${msg.data}.begin())
 );
 		return true;
